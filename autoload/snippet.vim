@@ -16,6 +16,16 @@ function! snippet#InsertSkeleton() abort
         return
     endif
 
+    if !empty('b:projectionist')
+        " Loop through projections with 'skeleton' key and try each one until
+        " the snippet expands
+        for [root, value] in projectionist#query('skeleton')
+            if s:try_insert(value)
+                return
+            endif
+        endfor
+    endif
+
     call s:try_insert('skel')
 endfunction
 
